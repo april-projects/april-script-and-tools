@@ -10,20 +10,23 @@ if not exist "%WORK_DIR%" (
 )
 
 REM 进入用户指定的工作目录
-cd /d %WORK_DIR%
+cd /d "%WORK_DIR%"
 
 REM 用户输入代理配置
 :GET_HTTP_PROXY_PORT
-set /p HTTP_PROXY_PORT=请输入HTTP代理端口号：
+set /p USE_DEFAULT_PORT=是否使用默认端口 10809(Y/N): 
+if /i "%USE_DEFAULT_PORT%" neq "Y" (
+    set /p HTTP_PROXY_PORT=请输入HTTP代理端口号：
 
-REM 验证代理端口是否为数字
-setlocal enabledelayedexpansion
-set "nonnumeric=!HTTP_PROXY_PORT!"
-for /l %%a in (0,1,9) do set "nonnumeric=!nonnumeric:%%a=!"
-if defined nonnumeric (
-    echo 错误：输入的不是合法的端口号，请重新输入。
-    endlocal
-    goto GET_HTTP_PROXY_PORT
+    REM 验证代理端口是否为数字
+    set "nonnumeric=!HTTP_PROXY_PORT!"
+    for /l %%a in (0,1,9) do set "nonnumeric=!nonnumeric:%%a=!"
+    if defined nonnumeric (
+        echo 错误：输入的不是合法的端口号，请重新输入。
+        goto GET_HTTP_PROXY_PORT
+    )
+) else (
+    set "HTTP_PROXY_PORT=10809"
 )
 
 REM 配置代理
@@ -66,5 +69,3 @@ if "%CHOICE%"=="1" (
     REM 在这里添加下一步的操作
     pause
 )
-
-endlocal
