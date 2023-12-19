@@ -49,6 +49,14 @@ if "%COMMIT_MESSAGE%"=="" (
     exit /b 1
 )
 
+REM 获取当前日期和时间
+for /f "delims=" %%a in ('wmic OS Get localdatetime ^| find "."') do set datetime=%%a
+set "date=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!"
+set "time=!datetime:~8,2!:!datetime:~10,2!:!datetime:~12,2!"
+
+REM 添加日期和时间到提交注释
+set "COMMIT_MESSAGE=%COMMIT_MESSAGE% - %date% %time%"
+
 echo 执行 git commit 操作
 git commit -m ":sparkles: %COMMIT_MESSAGE%"
 
