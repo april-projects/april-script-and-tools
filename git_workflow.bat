@@ -1,4 +1,5 @@
 @echo off
+setlocal enabledelayedexpansion
 
 REM 获取用户输入的工作目录
 set /p WORK_DIR=请输入工作目录：
@@ -55,10 +56,10 @@ set "date=!datetime:~0,4!-!datetime:~4,2!-!datetime:~6,2!"
 set "time=!datetime:~8,2!:!datetime:~10,2!:!datetime:~12,2!"
 
 REM 添加日期和时间到提交注释
-set "COMMIT_MESSAGE=%COMMIT_MESSAGE% - %date% %time%"
+set "COMMIT_MESSAGE=%COMMIT_MESSAGE% - !date! !time!"
 
 echo 执行 git commit 操作
-git commit -m ":sparkles: %COMMIT_MESSAGE%"
+git commit -m "!COMMIT_MESSAGE!"
 
 echo 执行 git push 操作
 git push
