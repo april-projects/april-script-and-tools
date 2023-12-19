@@ -47,7 +47,7 @@ if "%COMMIT_MESSAGE%"=="" (
 )
 
 echo 执行 git commit 操作
-git commit -m "%COMMIT_MESSAGE%"
+git commit -m ":sparkles: %COMMIT_MESSAGE%"
 
 echo 执行 git push 操作
 git push
