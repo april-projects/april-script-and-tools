@@ -1,16 +1,19 @@
 @echo off
-cls
-color 0a
-cd  ..
-: spring-javaformat:apply
-call mvn spring-javaformat:apply
-goto menu
+setlocal enabledelayedexpansion
+
+REM ½ÓÊÜÓÃ»§ÊäÈëµÄ¹¤×÷Ä¿Â¼
+set /p "work_dir=ÇëÊäÈë¹¤×÷Ä¿Â¼£¨»Ø³µÊ¹ÓÃµ±Ç°Ä¿Â¼£©: "
+if not defined work_dir set "work_dir=%cd%"
+
+REM ÇĞ»»µ½ÓÃ»§Ö¸¶¨µÄ¹¤×÷Ä¿Â¼
+cd /d "%work_dir%"
+
 :menu
 cls
 echo.
 echo. * * * * * * * * * * mvn commands * * * * * * * * * *
-echo. * * å¿«é€Ÿä½¿ç”¨mvnå‘½ä»¤ç¼–è¯‘mavenå·¥ç¨‹ * *
-echo. * 0 -Dmaven.test.skip=true é»˜è®¤ä¸ºtrueï¼Œå¯é€šè¿‡02ã€03ã€04æ–¹å¼è®¾ç½®ä¸è·³è¿‡æµ‹è¯•
+echo. * * ¿ìËÙÊ¹ÓÃmvnÃüÁî±àÒëmaven¹¤³Ì * *
+echo. * 0 -Dmaven.test.skip=true Ä¬ÈÏÎªtrue£¬¿ÉÍ¨¹ı02¡¢03¡¢04·½Ê½ÉèÖÃ²»Ìø¹ı²âÊÔ
 echo. * *
 echo. * 1 mvn clean
 echo. * *
@@ -20,11 +23,13 @@ echo. * 3 mvn clean compile
 echo. * *
 echo. * 4 mvn clean package
 echo. * *
+echo. * 5 mvn deploy
+echo. * *
 echo. * 99 exit
 echo. * *
 echo. * * * * * * * * * * * * * * * * * * * * * * * * * * *
 echo.
-echo è¯·è¾“å…¥é€‰æ‹©é¡¹åºå·ï¼š
+echo ÇëÊäÈëÑ¡ÔñÏîĞòºÅ£º
 set /p ID=
 
 set skipTest=-Dmaven.test.skip=true
@@ -37,6 +42,8 @@ if "%ID%"=="3" goto compile
 
 if "%ID%"=="4" goto package
 
+if "%ID%"=="5" goto deploy
+
 if "%ID%"=="02" (set skipTest= & goto install)
 
 if "%ID%"=="03" (set skipTest= & goto compile)
@@ -47,7 +54,7 @@ if "%ID%"=="99" goto quit
 goto quit
 
 :clean
-echo. å¼€å§‹clean
+echo. ¿ªÊ¼clean
 call mvn clean
 echo.
 echo.
@@ -55,7 +62,7 @@ pause
 goto menu
 
 :install
-echo. å¼€å§‹æ‰§è¡Œï¼šmvn clean install %skipTest%
+echo. ¿ªÊ¼Ö´ĞĞ£ºmvn clean install %skipTest%
 call mvn clean install %skipTest%
 echo.
 echo.
@@ -63,7 +70,7 @@ pause
 goto menu
 
 :compile
-echo. å¼€å§‹æ‰§è¡Œï¼šmvn clean compile %skipTest%
+echo. ¿ªÊ¼Ö´ĞĞ£ºmvn clean compile %skipTest%
 call mvn clean compile %skipTest%
 echo.
 echo.
@@ -71,12 +78,20 @@ pause
 goto menu
 
 :package
-echo. å¼€å§‹æ‰§è¡Œï¼šmvn clean package %skipTest%
+echo. ¿ªÊ¼Ö´ĞĞ£ºmvn clean package %skipTest%
 call mvn clean package %skipTest%
 echo.
 echo.
 pause
 goto menu
 
+:deploy
+echo. ¿ªÊ¼Ö´ĞĞ£ºmvn deploy %skipTest%
+call mvn deploy %skipTest%
+echo.
+echo.
+pause
+goto menu
+
 :quit
-if not {%ID%}=={99} echo è¾“å…¥çš„é€‰é¡¹ä¸æ­£ç¡® & pause & goto menu
+if not {%ID%}=={99} echo ÊäÈëµÄÑ¡Ïî²»ÕıÈ· & pause & goto menu

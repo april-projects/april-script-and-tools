@@ -1,6 +1,6 @@
 rem 生成3个随机字符串
 @echo off
-set n=3
+set n=10
 rem n=3意思要生成3个随机字符串，如要10个修改n=10
 setlocal enabledelayedexpansion
 rem 开启变量延迟
