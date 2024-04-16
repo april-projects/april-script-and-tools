@@ -1,13 +1,15 @@
 #!/bin/bash
 
-# 卸载删除除了配置文件以外的所有文件
-sudo apt remove nginx nginx-common
+# 停止 Nginx 服务
+echo "停止 Nginx 服务..."
+sudo /usr/local/nginx/sbin/nginx -s stop
 
-# 卸载所有东东，包括删除配置文件
-sudo apt purge nginx nginx-common
+# 卸载 Nginx
+echo "卸载 Nginx..."
+sudo rm -rf /usr/local/nginx
 
-# 在上面命令结束后执行，主要是卸载删除Nginx的不再被使用的依赖包
-sudo apt autoremove
+# 清理源码包
+echo "清理 Nginx 源码包..."
+rm -rf nginx-1.24.0.tar.gz
 
-# 卸载删除两个主要的包
-sudo apt remove nginx-full nginx-common
+echo "Nginx 已成功卸载。"
