@@ -62,7 +62,7 @@ echo "初始用户名：admin"
 
 # 等待一段时间再尝试获取初始密码，避免文件尚未生成的情况
 echo "等待获取初始密码..."
-sleep 10
+sleep 15
 
 # 尝试获取初始密码，如果文件存在则输出密码，否则给出提示
 PASSWORD_FILE="${NEXUS_VOLUME_DIR}/admin.password"
