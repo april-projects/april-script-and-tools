@@ -1,0 +1,19 @@
+docker run -d \
+    --name watchtower \
+    --restart always \
+    -v /var/run/docker.sock:/var/run/docker.sock \
+    --memory="512m" \
+    --cpus="1.0" \
+    --health-cmd="test -S /var/run/docker.sock || exit 1" \
+    --health-interval=30s \
+    --health-timeout=10s \
+    --health-retries=3 \
+    -e WATCHTOWER_NOTIFICATIONS=email \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_FROM=mobaijun8@163.com \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_TO=mobaijun8@163.com \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_SERVER=smtp.163.com \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PORT=465 \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_SERVER_USER=mobaijun8@163.com \
+    -e WATCHTOWER_NOTIFICATION_EMAIL_SERVER_PASSWORD=QMTOYLDQFTXEGKUN \
+    -e WATCHTOWER_POLL_INTERVAL=604800 \
+    containrrr/watchtower:latest --notifications-level=info

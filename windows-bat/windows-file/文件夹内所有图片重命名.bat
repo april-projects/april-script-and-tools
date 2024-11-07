@@ -1,14 +1,24 @@
 @echo off
 setlocal enabledelayedexpansion
-set count=100
-for /f "delims=" %%i in ('dir /b *.jpg,*.png,*.bmp,*.jpeg,*.gif') do call:Rename "%%~i"
+set count=0
+
+:: 列出所有图像文件
+for /f "delims=" %%i in ('dir /b /a-d *.jpg *.png *.bmp *.jpeg *.gif') do (
+    set /a count+=1
+    call :Rename "%%~i" "!count!"
+)
+
 pause
-exit
- 
+exit /b
+
 :Rename
-set /a count+=1
-if /i "%~1"=="!count:~1!%~x1" goto :eof
-if exist "!count:~1!%~x1" goto Rename
-echo ������%1 !count:~1!
-ren "%~1" "!count:~1!%~x1"
+set "ext=%~x1"
+
+:: 生成新文件名
+set "newName=%2%~x1"
+
+:: 执行重命名
+echo Renaming %1 to !newName!
+ren "%~1" "!newName!"
+
 goto :eof
